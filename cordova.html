@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Green Horizon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+    <h1>Green Horizon</h1>
+    <!-- Your existing content here -->
+    
+    <form id="emailForm">
+        <input type="email" id="email" placeholder="Recipient Email" required>
+        <input type="text" id="subject" placeholder="Subject" required>
+        <textarea id="message" placeholder="Message" required></textarea>
+        <button type="submit">Send Email</button>
+    </form>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var email = document.getElementById('email').value;
+            var subject = document.getElementById('subject').value;
+            var message = document.getElementById('message').value;
+
+            cordova.plugin.http.setDataSerializer('json');
+            cordova.plugin.http.post('http://YOUR_SERVER_IP:3000/send-email', {
+                to: email,
+                subject: subject,
+                text: message
+            }, {
+                'Content-Type': 'application/json'
+            }, function(response) {
+                alert('Email sent successfully!');
+            }, function(response) {
+                alert('Failed to send email: ' + response.error);
+            });
+        });
+    </script>
+</body>
+</html>

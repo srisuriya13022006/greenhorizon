@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            width: 100%;
+            height: 75px;
+            background-color: rgb(2, 49, 35);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            color: rgb(245, 247, 247);
+            font-size: 35px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .signup-container {
+            margin: 5% auto;
+            padding: 40px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .signup-container input[type="text"],
+        .signup-container input[type="password"],
+        .signup-container input[type="email"],
+        .signup-container button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .signup-container button {
+            background-color: #042f21;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .signup-container button:hover {
+            background-color: #145f30;
+        }
+        .types {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+            color: #024722;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #e4f7e1;
+        }
+        .types h1, .types h3 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1 class="logo">Green Horizon</h1>
+    </div>
+
+    <div class="types">
+        <h1>Join Green Horizon Today!</h1>
+        <h3>
+            "Embark on a journey of sustainability and growth. Together, we nurture, preserve, 
+            and thrive alongside nature, weaving sustainability into the fabric of our lives."
+        </h3>
+        <h3><b>From your hands, to your hands... Fresh, Always!</b></h3>
+    </div>
+
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form" name="myform2" action="register.php" method="POST">
+            <input type="text" id="username" name="uname" placeholder="Username" required>
+            <input type="password" id="password" name="upass" placeholder="Password" required>
+            <input type="email" id="email" name="uemail" placeholder="Email" required>
+            <button type="submit"><b>SIGN UP</b></button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", function(event) {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+
+            // Check if any field is empty
+            if (!username || !password || !email) {
+                alert("Please fill in all fields.");
+                event.preventDefault(); // Prevent the form from submitting
+            }
+        });
+    </script>
+</body>
+</html>

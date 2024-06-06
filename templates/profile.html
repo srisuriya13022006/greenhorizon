@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Plants</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-1: #007f5f;
+            --color-2: #2b9348;
+            --color-3: #55a630;
+            --color-4: #80b918;
+            --color-5: #aacc00;
+            --color-6: #bfd200;
+            --color-7: #d4d700;
+            --color-8: #dddf00;
+            --color-9: #eeef20;
+            --color-10: #ffff3f;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('plant1 bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        header {
+            background-color: var(--color-1);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        .welcome-container {
+            background-color: var(--color-4);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .plant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .plant-card {
+            background-color: var(--color-2);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .plant-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .plant-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+
+        .status {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--color-6);
+        }
+
+        .add-plant-btn {
+            background-color: var(--color-5);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-plant-btn:hover {
+            background-color: var(--color-6);
+        }
+
+        .remove-btn,
+        .update-btn {
+            background-color: var(--color-6);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover,
+        .update-btn:hover {
+            background-color: var(--color-7);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Styles for the camera popup */
+        #camera-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        #camera-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #camera-container video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            background-color: red;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .close-btn:hover {
+            background-color: darkred;
+        }
+
+        .capture-btn {
+            background-color: green;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .capture-btn:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Garden Plants</h1>
+    </header>
+    <div class="container">
+        <div class="welcome-container">
+            <h2>Welcome to Your Garden Plants App!</h2>
+            <p>Track and nurture your plants with ease.</p>
+        </div>
+        <div class="plant-list" id="plant-list">
+            <!-- Plant cards will be added here dynamically -->
+        </div>
+        <button class="add-plant-btn" id="add-plant-btn">Add Plant</button>
+    </div>
+
+    <!-- Camera Popup -->
+    <div id="camera-popup">
+        <div id="camera-container">
+            <video id="camera-stream" autoplay></video>
+            <button class="capture-btn" id="capture-btn">Capture</button>
+            <button class="close-btn" id="close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal for adding new plant details -->
+    <div class="modal fade" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPlantModalLabel">Add New Plant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPlantForm">
+                        <div class="form-group">
+                            <label for="plantName">Plant Name</label>
+                            <input type="text" class="form-control" id="plantName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plantCondition">Plant Condition</label>
+                            <input type="text" class="form-control" id="plantCondition" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plantYield">Plant Yield</label>
+                            <input type="text" class="form-control" id="plantYield">
+                        </div>
+                        <div class="form-group">
+                            <label for="isNewPlant">Is this a new plant?</label>
+                            <select class="form-control" id="isNewPlant">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Plant</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for selecting image options -->
+    <div class="modal fade" id="imageOptionsModal" tabindex="-1" role="dialog" aria-labelledby="imageOptionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageOptionsModalLabel">Choose Image Source</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button id="openCameraBtn" class="btn btn-primary">Open Camera</button>
+                    <button id="uploadImageBtn" class="btn btn-secondary">Upload Image</button>
+                    <input type="file" id="imageInput" class="hidden">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for displaying prediction result -->
+    <div class="modal fade" id="predictionResultModal" tabindex="-1" role="dialog" aria-labelledby="predictionResultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="predictionResultModalLabel">Prediction Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="prediction-result">Prediction result will be displayed here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addPlantBtn = document.getElementById('add-plant-btn');
+            const plantList = document.getElementById('plant-list');
+            const addPlantModal = document.getElementById('addPlantModal');
+            const addPlantForm = document.getElementById('addPlantForm');
+            const imageOptionsModal = document.getElementById('imageOptionsModal');
+            const openCameraBtn = document.getElementById('openCameraBtn');
+            const uploadImageBtn = document.getElementById('uploadImageBtn');
+            const imageInput = document.getElementById('imageInput');
+            const cameraPopup = document.getElementById('camera-popup');
+            const cameraStream = document.getElementById('camera-stream');
+            const captureBtn = document.getElementById('capture-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const predictionResult = document.getElementById('prediction-result');
+
+            let currentPlantCard = null;
+
+            addPlantBtn.addEventListener('click', () => {
+                $('#addPlantModal').modal('show');
+            });
+
+            addPlantForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const plantName = document.getElementById('plantName').value;
+                const plantCondition = document.getElementById('plantCondition').value;
+                const plantYield = document.getElementById('plantYield').value;
+                const isNewPlant = document.getElementById('isNewPlant').value;
+
+                const plantCard = document.createElement('div');
+                plantCard.className = 'plant-card';
+                plantCard.innerHTML = `
+                    <div class="plant-info">
+                        <h3>${plantName}</h3>
+                        <p>Condition: ${plantCondition}</p>
+                        <p>Yield: ${plantYield}</p>
+                        <p>New Plant: ${isNewPlant}</p>
+                        <button class="update-btn">Upload Image</button>
+                        <input type="file" class="hidden">
+                    </div>
+                    <img src="default.jpg" alt="Plant Image">
+                `;
+                plantList.appendChild(plantCard);
+                $('#addPlantModal').modal('hide');
+
+                const updateBtn = plantCard.querySelector('.update-btn');
+                const fileInput = plantCard.querySelector('input[type="file"]');
+                updateBtn.addEventListener('click', () => {
+                    currentPlantCard = plantCard;
+                    $('#imageOptionsModal').modal('show');
+                });
+
+                fileInput.addEventListener('change', () => {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const imageData = e.target.result;
+                        uploadImage(imageData, plantCard);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            openCameraBtn.addEventListener('click', () => {
+                $('#imageOptionsModal').modal('hide');
+                cameraPopup.style.display = 'block';
+
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        cameraStream.srcObject = stream;
+                    })
+                    .catch(err => {
+                        console.error('Error accessing camera:', err);
+                    });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                cameraPopup.style.display = 'none';
+                let stream = cameraStream.srcObject;
+                let tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                cameraStream.srcObject = null;
+            });
+
+            captureBtn.addEventListener('click', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = cameraStream.videoWidth;
+                canvas.height = cameraStream.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                cameraPopup.style.display = 'none';
+                uploadImage(imageData, currentPlantCard);
+            });
+
+            uploadImageBtn.addEventListener('click', () => {
+                const fileInput = currentPlantCard.querySelector('input[type="file"]');
+                fileInput.click();
+            });
+
+            function uploadImage(imageData, plantCard) {
+    fetch('/analyze_image', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image: imageData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.stage === 'unidentified') {
+            alert('Unidentified image. Please upload a valid image.');
+        } else {
+            predictionResult.textContent = `Stage: ${data.stage}, Suggestions: ${data.suggestions}`;
+            $('#predictionResultModal').modal('show');
+            plantCard.querySelector('img').src = imageData;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:rgb(2, 49, 35);
+            color: #2e7d32;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #b0ffb5;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .side {
+            width: 20%;
+            padding: 1px;
+        }
+        .side img {
+            width: 100%;
+            border-radius: 1px;
+        }
+        .container {
+            width: 60%;
+            background-color: #c8e6c9;
+            border: 2px solid #2e7d32;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(196, 196, 196, 0.2);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .radio-buttons, .dropdown {
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #66bb6a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #388e3c;
+        }
+        .info-box {
+            background-color: #ffffff;
+            border: 1px solid #2e7d32;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #plant-info {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #ffffff;
+            border: 1px solid #2e7d32;
+            border-radius: 5px;
+            padding: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Garden Planner</h1>
+    <div class="main-container">
+        <div class="side">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\cdd.jpg" alt="Garden Image">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\pic1 (2).jpg" alt="Garden Image">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\ab.jpg" alt="Garden Image">
+        </div>
+        <div class="container">
+            <div class="info-box">
+                <strong>Tip:</strong> Different plants thrive in different soil pH levels and sunlight conditions. Make sure to select the right combination for your garden.
+            </div>
+            <div class="section">
+                <label>Soil pH:</label>
+                <div class="radio-buttons">
+                    <input type="radio" name="soil-ph" id="acidic" value="acidic">
+                    <label for="acidic">Acidic To Neutral</label>
+                    <input type="radio" name="soil-ph" id="neutral" value="neutral">
+                    <label for="neutral">Neutral</label>
+                    <input type="radio" name="soil-ph" id="basic" value="basic">
+                    <label for="basic">Basic</label>
+                </div>
+            </div>
+            <div class="section">
+                <label for="sunlight">Percent of Sunlight Received:</label>
+                <select id="sunlight" class="dropdown">
+                    <option value="0-25">0-25%</option>
+                    <option value="26-50">26-50%</option>
+                    <option value="51-75">51-75%</option>
+                    <option value="76-100">76-100%</option>
+                </select>
+            </div>
+            <div class="section" id="vegetable-section" style="display: none;">
+                <label for="vegetables">Vegetables:</label>
+                <select id="vegetables" class="dropdown">
+                    <!-- Options will be added dynamically based on soil pH and sunlight -->
+                </select>
+            </div>
+            <div id="plant-info" class="info-box">
+                <!-- Plant information will be displayed here -->
+            </div>
+        </div>
+        <div class="side">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\pic1 (3).jpg" alt="Garden Image">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\abb.jpg" alt="Garden Image">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\cd.jpg" alt="Garden Image">
+        </div>
+    </div>
+    
+    <script>
+        const vegetableSection = document.getElementById('vegetable-section');
+        const vegetableDropdown = document.getElementById('vegetables');
+        const soilPhRadios = document.getElementsByName('soil-ph');
+        const sunlightDropdown = document.getElementById('sunlight');
+        const plantInfo = document.getElementById('plant-info');
+
+        const vegetables = {
+            acidic: {
+                '0-25': [
+                { 
+                        name: 'Cranberry', 
+                        info: `
+                        
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b>
+
+- Soil Type: Acidic, sandy soil with a pH of 4.0 to 5.5.<br>
+- Preparation: Amend soil with peat moss and sand.<br><br>
+<b>Planting:</b><br>
+- Spacing: Space plants 2 feet apart in rows 4 feet apart.<br>
+- Timing: Plant in spring.<br><br>
+<b>Irrigation:</b><br>
+
+- Watering: Maintain consistent moisture, especially during flowering and fruiting.<br><br>
+
+<b>Weed Control:</b><br>
+
+- Mulching: Use pine needles or sawdust.<br>
+- Hand Weeding: Weed regularly.<br><br>
+<b>Pest and Disease Management:</b><br>
+
+- Common Pests: Cranberry fruitworm and weevils.<br>Use row covers and beneficial insects.<br>
+- Diseases: Prevent fungal diseases with good air circulation.<br>
+- Use natural Manures and Organic Fertilizers<br>
+- Compost: Add to soil before planting.<br>
+- Green Manure: Use cover crops in off-seasons.<br>
+- Animal Manure: Apply aged manure months before planting.<br>
+- Bone Meal: For phosphorus.<br>
+- Fish Emulsion: Apply during growth.<br>
+- Wood Ash: Use sparingly to avoid raising pH.<br>
+- Harvesting: Harvest when berries are bright red. Store in a cool, dry place.<br>
+                      `
+                    },
+                
+                
+                    { 
+                        name: 'Blueberry', 
+                        info: `
+                        
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b>
+
+- Soil Type: Acidic, well drained soil with a pH of 4.5 to 5.5.<br>
+- Preparation: Amend soil with peat moss to increase acidity.<br><br>
+<b>Planting:</b><br>
+- Spacing: Space plants 4-5 feet apart in rows 8-10 feet apart.<br>
+- Timing: Plant in early spring or fall.<br><br>
+<b>Irrigation:</b><br>
+
+- Watering: Provide 1-2 inches of water per week, especially during fruiting.<br><br>
+
+<b>Weed Control:</b><br>
+
+- Mulching: Use pine needles or sawdust.<br>
+- Hand Weeding: Weed regularly.<br><br>
+<b>Pest and Disease Management:</b><br>
+
+- Common Pests: Birds, aphids and japanese beetles.<br>Use netting and beneficial insects.<br>
+- Diseases: Prevent fungal diseases with good air circulation.<br>
+- Use natural Manures and Organic Fertilizers<br>
+- Compost: Add to soil before planting.<br>
+- Green Manure: Use cover crops in off-seasons.<br>
+- Animal Manure: Apply aged manure months before planting.<br>
+- Bone Meal: For phosphorus.<br>
+- Fish Emulsion: Apply during growth.<br>
+- Wood Ash: Use sparingly to avoid raising pH.<br>
+- Harvesting: Harvest when berries are fully ripe. Store in a cool, dry place.<br>
+                      `
+                    }, ],
+
+                '26-50': [  { 
+                        name: 'Tomato', 
+                        info: `
+                        
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b>
+
+- Soil Type: Acidic, well drained,fertile soil with a pH of 6.0 to 6.8.<br>
+- Preparation: Add compost and organic matter.<br><br>
+<b>Planting:</b><br>
+- Spacing: Space plants 18-24 inches apart in rows 36-48 inches apart.<br>
+- Timing: Plant after the last frost date.<br><br>
+<b>Irrigation:</b><br>
+
+- Watering: water deeply and consistently, especially during fruiting.<br><br>
+
+<b>Weed Control:</b><br>
+
+- Mulching: Use straw or black plastic.<br>
+- Hand Weeding: Weed regularly.<br><br>
+<b>Pest and Disease Management:</b><br>
+
+- Common Pests: Tomato hornworms, aphids and whiteflies.<br>Use neem oil and handpicking.<br>
+- Diseases: Prevent blight and mildew with good air circulation.<br>
+- Use natural Manures and Organic Fertilizers<br>
+- Compost: Mix to soil before planting.<br>
+- Green Manure: Use cover crops in off-seasons.<br>
+- Animal Manure: Apply aged manure months before planting.<br>
+- Bone Meal: For phosphorus.<br>
+- Fish Emulsion: Apply during growth.<br>
+- Wood Ash: Adjust pH is needed.<br>
+- Harvesting:Pick when the fruits are firm and fully coloured.<br>
+                      `
+                    },   { 
+                        name: 'Carrot', 
+                        info: `
+                        
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b>
+
+- Soil Type: Loose,sandy loam soil with a pH of 6.0 to 6.8.<br>
+- Preparation: Remove rocks and debris,and add compost.<br><br>
+<b>Planting:</b><br>
+- Spacing: Space plants 2-3 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant in early spring or late summer.<br><br>
+<b>Irrigation:</b><br>
+
+- Watering: Keep soil consistently moist.<br><br>
+
+<b>Weed Control:</b><br>
+
+- Mulching: Use straw or grass clippings.<br>
+- Hand Weeding: Weed carefully around the plants.<br><br>
+<b>Pest and Disease Management:</b><br>
+
+- Common Pests: Carrot rust flies and aphids.<br>Use row covers and beneficial insects.<br>
+- Diseases: Prevent fungal diseases with good air circulation.<br>
+- Use natural Manures and Organic Fertilizers<br>
+- Compost: Add to soil before planting.<br>
+- Green Manure: Use cover crops in off-seasons.<br>
+- Animal Manure: Apply aged manure months before planting.<br>
+- Bone Meal: For phosphorus.<br>
+- Fish Emulsion: Apply during growth.<br>
+- Wood Ash: Use sparingly to avoid raising pH.<br>
+- Harvesting: Harvest when roots are 1-2 inches in diameter.Store in a cool, dry place.<br>
+                      `
+                    },  ],
+               
+                    '51-75': 
+                [{
+    name: 'Ginger',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with organic matter.<br>
+- Preparation: Amend soil with compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Rhizome Selection: Choose firm, plump rhizomes with buds.<br>
+- Planting Depth: Plant rhizomes 2-4 inches deep with buds facing upwards.<br>
+- Spacing: Space rhizomes 8-10 inches apart in rows 1-2 feet apart.<br>
+- Timing: Plant in early spring or late winter indoors.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist but not waterlogged.<br>
+- Mulching: Mulch with straw or shredded leaves to retain moisture.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch to suppress weeds.<br>
+- Hand Weeding: Remove weeds regularly to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, spider mites, and root-knot nematodes.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs.<br>
+- Diseases: Prevent fungal diseases with good ventilation.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure annually.<br>
+- Liquid Fertilizer: Use diluted fish emulsion every 2-3 weeks during active growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest ginger rhizomes when plants die back in late fall or winter.<br>
+- Storage: Wash and dry rhizomes before storing in a cool, dry place.<br>
+`
+}
+,{
+    name: 'Potato',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, sandy loam soil with pH between 5.0 and 6.5.<br>
+- Preparation: Add organic matter like compost or well-rotted manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose certified disease-free seed potatoes.<br>
+- Planting Depth: Plant potatoes 3-4 inches deep in furrows.<br>
+- Spacing: Space seed potatoes 12-15 inches apart in rows 2-3 feet apart.<br>
+- Timing: Plant in early spring after the last frost.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist but not waterlogged, especially during tuber formation.<br>
+- Mulching: Apply mulch like straw or shredded leaves to retain soil moisture.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Remove weeds regularly to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Colorado potato beetles, aphids, and potato tuber moths.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs.<br>
+- Diseases: Rotate crops annually to prevent soil-borne diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium during tuber formation.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest potatoes when plants die back and foliage turns yellow.<br>
+- Storage: Cure potatoes in a cool, dark place for 1-2 weeks before storing in a cool, dry area.<br>
+`
+}
+, {
+    name: 'Strawberry',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, sandy loam soil with pH between 5.5 and 6.5.<br>
+- Preparation: Add organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Plant Selection: Choose disease-resistant varieties suited to your climate.<br>
+- Planting Depth: Set strawberry plants with the crown just above soil level.<br>
+- Spacing: Space plants 12-18 inches apart in rows 2-3 feet apart.<br>
+- Timing: Plant in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Drip Irrigation: Use drip irrigation to keep foliage dry and reduce disease risk.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch with straw or pine needles to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Slugs, birds, and spider mites.<br>
+- Natural Predators: Encourage beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by spacing plants for good air circulation.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in phosphorus for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest ripe strawberries when fully red and fragrant.<br>
+- Storage: Store strawberries in the refrigerator and consume within a few days for best quality.<br>
+`
+}
+],
+                '76-100': [{
+    name: 'Pepper',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 6.8.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose disease-resistant pepper varieties suited to your climate.<br>
+- Planting Depth: Plant pepper seeds ¼ inch deep indoors 8-10 weeks before the last frost.<br>
+- Transplanting: Transplant seedlings outdoors after the danger of frost has passed.<br>
+- Spacing: Space pepper plants 18-24 inches apart in rows 2-3 feet apart.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil evenly moist, especially during flowering and fruiting stages.<br>
+- Mulching: Apply mulch like straw or plastic to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch around pepper plants to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and pepper maggots.<br>
+- Natural Predators: Attract beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest peppers when they reach desired size and color.<br>
+- Storage: Store peppers in the refrigerator and use within a few days for best quality.<br>
+`
+}
+, {
+    name: 'Lettuce',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose lettuce varieties suited to your climate and preferred maturity.<br>
+- Planting Depth: Sow lettuce seeds 1/8 to 1/4 inch deep in rows or scatter for loose-leaf varieties.<br>
+- Successive Planting: Sow seeds every 2-3 weeks for a continuous harvest.<br>
+- Spacing: Space lettuce plants 6-12 inches apart in rows 12-18 inches apart.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and growth.<br>
+- Mulching: Apply mulch like straw or shredded leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch around lettuce plants to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, slugs, and cutworms.<br>
+- Natural Predators: Attract beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest lettuce when leaves are young and tender, before they bolt.<br>
+- Cutting: Use scissors to cut leaves at the base, allowing the plant to continue growing.<br>
+`
+}
+,{
+    name: 'Capsicum (Bell Pepper)',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 6.8.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose disease-resistant capsicum varieties suited to your climate.<br>
+- Planting Depth: Plant capsicum seeds 1/4 inch deep indoors 8-10 weeks before the last frost.<br>
+- Transplanting: Transplant seedlings outdoors after the danger of frost has passed.<br>
+- Spacing: Space capsicum plants 18-24 inches apart in rows 2-3 feet apart.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil evenly moist, especially during flowering and fruiting stages.<br>
+- Mulching: Apply mulch like straw or plastic to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch around capsicum plants to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and pepper maggots.<br>
+- Natural Predators: Attract beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest capsicum when they reach desired size and color.<br>
+- Storage: Store capsicum in the refrigerator and use within a few days for best quality.<br>
+`
+}
+,{
+    name: 'Chili Pepper',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, sandy loam soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose chili pepper varieties suited to your climate and preferred heat level.<br>
+- Planting Depth: Plant chili pepper seeds 1/4 inch deep indoors 8-10 weeks before the last frost.<br>
+- Transplanting: Transplant seedlings outdoors after the danger of frost has passed.<br>
+- Spacing: Space chili pepper plants 18-24 inches apart in rows 2-3 feet apart.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil evenly moist, especially during flowering and fruiting stages.<br>
+- Mulching: Apply mulch like straw or plastic to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch around chili pepper plants to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and spider mites.<br>
+- Natural Predators: Attract beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in phosphorus for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest chili peppers when they reach desired size and color.<br>
+- Storage: Store chili peppers in the refrigerator and use within a few days for best quality.<br>
+`
+}
+,{
+    name: 'Brinjal (Eggplant)',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 5.5 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose brinjal varieties suited to your climate and preferred fruit size.<br>
+- Planting Depth: Sow brinjal seeds 1/4 inch deep indoors 8-10 weeks before the last frost.<br>
+- Transplanting: Transplant seedlings outdoors after the danger of frost has passed.<br>
+- Spacing: Space brinjal plants 18-24 inches apart in rows 2-3 feet apart.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil evenly moist, especially during flowering and fruiting stages.<br>
+- Mulching: Apply mulch like straw or plastic to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Mulch around brinjal plants to suppress weeds and conserve soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and spider mites.<br>
+- Natural Predators: Attract beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or aged manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest brinjal when the fruit reaches desired size and color.<br>
+- Cutting: Use pruners or a sharp knife to cut brinjal from the plant, leaving a short stem attached.<br>
+`
+}
+,{
+    name: 'Bottle Gourd',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose bottle gourd seeds from a reputable source.<br>
+- Planting Depth: Sow bottle gourd seeds 1 inch deep directly in the garden or in pots.<br>
+- Spacing: Space plants 3-4 feet apart in rows 5-6 feet apart.<br>
+- Timing: Plant seeds after the last frost date in spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Drip Irrigation: Use drip irrigation to water directly at the roots and avoid wetting foliage.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, cucumber beetles, and squash bugs.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest bottle gourds when they reach mature size but are still tender.<br>
+- Cutting: Use pruners or a sharp knife to cut bottle gourds from the vine, leaving a short stem attached.<br>
+`
+}
+,{
+    name: 'Ladyfinger (Okra)',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose okra seeds from a reputable source.<br>
+- Planting Depth: Sow okra seeds 1 inch deep directly in the garden or in pots.<br>
+- Spacing: Space plants 12-18 inches apart in rows 2-3 feet apart.<br>
+- Timing: Plant seeds after the last frost date in spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Drip Irrigation: Use drip irrigation to water directly at the roots and avoid wetting foliage.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and spider mites.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest okra pods when they are 2-4 inches long and tender.<br>
+- Cutting: Use pruners or a sharp knife to cut okra pods from the plant, leaving a short stem attached.<br>
+`
+}
+,{
+    name: 'Pumpkin',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose pumpkin seeds from a reputable source.<br>
+- Planting Depth: Sow pumpkin seeds 1 inch deep directly in the garden or in hills.<br>
+- Spacing: Space plants 2-4 feet apart in rows 6-10 feet apart.<br>
+- Timing: Plant seeds after the last frost date in spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Drip Irrigation: Use drip irrigation to water directly at the roots and avoid wetting foliage.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Squash bugs, cucumber beetles, and aphids.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest pumpkins when they reach mature size and have developed a deep, uniform color.<br>
+- Cutting: Use pruners or a sharp knife to cut pumpkins from the vine, leaving a short stem attached.<br>
+`
+},
+{
+    name: 'Pumpkin',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose pumpkin seeds from a reputable source.<br>
+- Planting Depth: Sow pumpkin seeds 1 inch deep directly in the garden or in hills.<br>
+- Spacing: Space plants 2-4 feet apart in rows 6-10 feet apart.<br>
+- Timing: Plant seeds after the last frost date in spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Drip Irrigation: Use drip irrigation to water directly at the roots and avoid wetting foliage.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Squash bugs, cucumber beetles, and aphids.<br>
+- Natural Predators: Introduce beneficial insects like ladybugs and lacewings.<br>
+- Diseases: Prevent fungal diseases by providing good air circulation and avoiding overhead watering.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for fruit development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest pumpkins when they reach mature size and have developed a deep, uniform color.<br>
+- Cutting: Use pruners or a sharp knife to cut pumpkins from the vine, leaving a short stem attached.<br>
+`
+}
+,{
+    name: 'Garlic',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Garlic prefers loose, fertile soil with good drainage.<br><br>
+<b>Planting:</b><br>
+- Garlic Varieties: Choose suitable garlic varieties for your climate.<br>
+- Planting Depth: Plant cloves 1-2 inches deep, with the pointed end facing up.<br>
+- Spacing: Space cloves 4-6 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant cloves in fall for a summer harvest, or in early spring in colder climates.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during bulb formation.<br>
+- Reduce watering as garlic matures to avoid rot.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, onion maggots, and thrips.<br>
+- Diseases: Rotate crops to prevent disease buildup in the soil.<br>
+- Avoid overhead watering to prevent fungal diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Side Dressing: Apply a balanced fertilizer during the growing season.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest garlic when the lower leaves begin to turn yellow and dry.<br>
+- Drying: Cure harvested garlic bulbs in a warm, dry, well-ventilated area for 2-4 weeks.<br>
+- Storage: Store cured garlic bulbs in a cool, dry place with good air circulation.<br>
+`
+}
+,{
+    name: 'Onion',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Onions prefer loose, well-drained soil.<br><br>
+<b>Planting:</b><br>
+- Onion Varieties: Choose suitable onion varieties for your climate and desired bulb size.<br>
+- Planting Depth: Plant onion sets 1 inch deep, with the tip just below the soil surface.<br>
+- Spacing: Space onion sets 4-6 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant onion sets in early spring for summer harvest, or in fall for overwintering.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during bulb formation.<br>
+- Reduce watering as onions mature to avoid rot.<br><br>
+<b>Weed Control:</b><br>
+- Mulching: Apply mulch like straw or dried leaves to suppress weeds and retain soil moisture.<br>
+- Hand Weeding: Regularly remove weeds to prevent competition.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Onion thrips, onion maggots, and onion root maggots.<br>
+- Diseases: Rotate crops to prevent disease buildup in the soil.<br>
+- Avoid overhead watering to prevent fungal diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Side Dressing: Apply a balanced fertilizer during the growing season.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest onions when the tops begin to yellow and fall over.<br>
+- Curing: Allow harvested onions to cure in a warm, dry, well-ventilated area for 1-2 weeks.<br>
+- Storage: Store cured onions in a cool, dry place with good air circulation.<br>
+`
+}
+ ],
+            neutral: {
+                '0-25': [{
+    name: 'Spinach',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Spinach prefers soil rich in nitrogen and organic matter.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose spinach seeds from a reputable source.<br>
+- Planting Depth: Sow spinach seeds 1/2 inch deep directly in the garden.<br>
+- Spacing: Space seeds 6 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and growth.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with spinach plants.<br>
+- Mulching: Mulch around spinach plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, leaf miners, and slugs.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Avoid overhead watering to prevent fungal diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest spinach leaves when they reach the desired size, usually 4-6 inches long.<br>
+- Cutting: Use scissors to cut spinach leaves at the base, allowing the plant to continue growing.<br>
+`
+}
+, {
+    name: 'Beetroot',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loose soil with pH between 6.0 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Beetroots prefer soil that is rich in organic matter and free from stones.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose beetroot seeds from a reputable source.<br>
+- Planting Depth: Sow beetroot seeds 1/2 inch deep directly in the garden.<br>
+- Spacing: Space seeds 2-4 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and root development.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with beetroot plants.<br>
+- Mulching: Mulch around beetroot plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and leaf miners.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Avoid overhead watering to prevent fungal diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for root development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest beetroot roots when they reach the desired size, usually 1-3 inches in diameter.<br>
+- Cutting: Use a garden fork to gently lift beetroot roots from the soil.<br>
+`
+}
+],
+                '26-50': [{
+    name: 'Cucumber',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Cucumbers prefer soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose cucumber seeds from a reputable source.<br>
+- Planting Depth: Sow cucumber seeds 1/2 to 1 inch deep directly in the garden.<br>
+- Spacing: Space seeds or seedlings 12-24 inches apart in rows 3-6 feet apart.<br>
+- Timing: Plant seeds after the last frost date in spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and fruiting.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with cucumber plants.<br>
+- Mulching: Mulch around cucumber plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Cucumber beetles, aphids, and spider mites.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for powdery mildew and downy mildew, common cucumber diseases.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for vine growth and potassium for fruiting.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest cucumbers when they reach the desired size, usually 6-8 inches long.<br>
+- Cutting: Use scissors or a knife to cut cucumbers from the vine, leaving a small portion of the stem attached.<br>
+`
+}
+, {
+    name: 'Radish',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loose soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Radishes prefer soil that is rich in organic matter and free from stones.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose radish seeds from a reputable source.<br>
+- Planting Depth: Sow radish seeds 1/2 inch deep directly in the garden.<br>
+- Spacing: Space seeds 1-2 inches apart in rows 6-12 inches apart.<br>
+- Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and root development.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with radish plants.<br>
+- Mulching: Mulch around radish plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Flea beetles, root maggots, and aphids.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for root diseases like clubroot and blackleg.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer low in nitrogen for root growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest radishes when they reach the desired size, usually 1-2 inches in diameter.<br>
+- Pulling: Gently pull radishes from the soil when harvesting, taking care not to damage nearby plants.<br>
+`
+}
+],
+                '51-75': [{
+    name: 'Lettuce',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile loamy soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Lettuce prefers soil that is rich in organic matter and moisture-retentive.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose lettuce seeds from a reputable source.<br>
+- Planting Depth: Sow lettuce seeds 1/4 inch deep directly in the garden.<br>
+- Spacing: Space seeds or seedlings 6-12 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and growth.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with lettuce plants.<br>
+- Mulching: Mulch around lettuce plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, slugs, and snails.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for lettuce diseases like downy mildew and lettuce mosaic virus.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest lettuce leaves when they reach the desired size, usually 4-6 inches long.<br>
+- Cutting: Use scissors to cut lettuce leaves at the base, allowing the plant to continue growing.<br>
+`
+}
+, {
+    name: 'Pea',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Peas prefer soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose pea seeds from a reputable source.<br>
+- Planting Depth: Sow pea seeds 1-2 inches deep directly in the garden.<br>
+- Spacing: Space seeds or seedlings 2-4 inches apart in rows 18-24 inches apart.<br>
+- Timing: Plant seeds as soon as the soil can be worked in early spring.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during flowering and pod formation.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with pea plants.<br>
+- Mulching: Mulch around pea plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, pea weevils, and pea moths.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like powdery mildew and pea leaf roll virus.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer low in nitrogen for legume crops.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest peas when the pods are plump and full, but before they become tough and starchy.<br>
+- Picking: Harvest peas by hand when they reach the desired size, snapping the stem just above the pod.<br>
+`
+}
+],
+                '76-100': [{
+    name: 'Broccoli',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Broccoli prefers soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose broccoli seeds from a reputable source.<br>
+- Planting Depth: Transplant broccoli seedlings 1/2 to 1 inch deep.<br>
+- Spacing: Space seedlings 18-24 inches apart in rows 24-36 inches apart.<br>
+- Timing: Start broccoli seeds indoors 6-8 weeks before the last frost date.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during head formation.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with broccoli plants.<br>
+- Mulching: Mulch around broccoli plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like clubroot and blackleg.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest broccoli heads when they are tight and firm, before the flowers start to open.<br>
+- Cutting: Cut broccoli heads at an angle about 5-6 inches below the head, allowing for potential side shoots to develop.<br>
+`
+}
+, {
+    name: 'Cauliflower',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Cauliflower prefers soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose cauliflower seeds from a reputable source.<br>
+- Planting Depth: Transplant cauliflower seedlings with the crown just below the soil surface.<br>
+- Spacing: Space seedlings 18-24 inches apart in rows 24-36 inches apart.<br>
+- Timing: Start cauliflower seeds indoors 6-8 weeks before the last frost date.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during head formation.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with cauliflower plants.<br>
+- Mulching: Mulch around cauliflower plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like clubroot and blackleg.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest cauliflower heads when they are tight and firm, before the curds start to loosen or discolor.<br>
+- Cutting: Cut cauliflower heads at an angle about 5-6 inches below the head, leaving some leaves attached to protect the curd.<br>
+`
+}],
+            basic: {
+                '0-25': [{
+    name: 'Asparagus',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, sandy loam soil with pH between 6.5 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Asparagus prefers soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Crown Selection: Choose healthy asparagus crowns from a reputable source.<br>
+- Planting Depth: Dig trenches 6-8 inches deep and space crowns 12-18 inches apart.<br>
+- Spacing: Space rows 3-4 feet apart.<br>
+- Timing: Plant crowns in early spring as soon as the soil can be worked.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during establishment.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with asparagus plants.<br>
+- Mulching: Mulch around asparagus plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Asparagus beetles, aphids, and slugs.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like asparagus rust and fusarium wilt.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in phosphorus for root development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Do not harvest asparagus spears during the first two years to allow plants to establish.<br>
+- Cutting: Harvest spears when they are 6-8 inches tall by cutting them at or slightly below the soil surface.<br>
+- Stop harvesting when spear diameter decreases, usually after 6-8 weeks.<br>
+`
+}
+, {
+    name: 'Cabbage',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Cabbage prefers soil that is rich in organic matter and well-drained.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose cabbage seeds from a reputable source.<br>
+- Planting Depth: Transplant cabbage seedlings with the crown just below the soil surface.<br>
+- Spacing: Space seedlings 12-18 inches apart in rows 18-24 inches apart.<br>
+- Timing: Start cabbage seeds indoors 6-8 weeks before the last frost date.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during head formation.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with cabbage plants.<br>
+- Mulching: Mulch around cabbage plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like clubroot and blackleg.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest cabbage heads when they are firm and solid, but before they split.<br>
+- Cutting: Cut cabbage heads at the base of the plant with a sharp knife.<br>
+`
+}
+],
+                '26-50': [{
+    name: 'Garlic',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loamy soil with pH between 6.0 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Garlic prefers soil that is loose, fertile, and well-drained.<br><br>
+<b>Planting:</b><br>
+- Clove Selection: Choose healthy garlic cloves from a reputable source.<br>
+- Planting Depth: Plant cloves 2 inches deep, pointed end up, and spaced 4-6 inches apart.<br>
+- Spacing: Space rows 12-18 inches apart.<br>
+- Timing: Plant cloves in fall, about 4-6 weeks before the first frost date.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during bulb formation.<br>
+- Mulching: Apply mulch like straw or shredded leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with garlic plants.<br>
+- Mulching: Mulch around garlic plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Onion thrips, nematodes, and bulb mites.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like white rot and garlic rust.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer low in nitrogen to avoid excessive leaf growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest garlic when the tops begin to yellow and fall over, usually in late spring or early summer.<br>
+- Digging: Use a garden fork to carefully lift garlic bulbs from the soil.<br>
+- Curing: Cure harvested garlic bulbs in a warm, dry, well-ventilated area for 2-4 weeks.<br>
+`
+}
+],
+                '51-75': [{
+    name: 'Carrot',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Loose, well-drained soil with pH between 6.0 and 7.0.<br>
+- Preparation: Remove rocks and debris, and till soil to a depth of 12 inches.<br>
+- Carrots prefer sandy soil that is free from obstructions to allow for straight root growth.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose carrot seeds from a reputable source.<br>
+- Planting Depth: Sow carrot seeds 1/4 to 1/2 inch deep directly in the garden.<br>
+- Spacing: Space seeds 1-2 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant seeds in early spring for a summer harvest, or in late summer for a fall harvest.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and root development.<br>
+- Mulching: Apply a thin layer of straw or dried grass clippings to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with carrot plants.<br>
+- Mulching: Mulch around carrot plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Carrot rust fly, carrot weevil, and aphids.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like carrot blight and cavity spot.<br><br>
+<b>Fertilization:</b><br>
+- Minimal Fertilization: Carrots do not require heavy fertilization, but can benefit from a light application of balanced fertilizer.<br>
+- Avoid Excess Nitrogen: Excessive nitrogen can cause forked or hairy carrots.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest carrots when they reach the desired size and color, usually 2-3 months after planting.<br>
+- Pulling: Gently pull carrots from the soil, taking care not to damage neighboring plants.<br>
+`
+}
+],
+                '76-100': [{
+    name: 'Beetroot',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, loose soil with pH between 6.0 and 7.0.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Beetroot prefers soil that is rich in organic matter and free from stones.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose beetroot seeds from a reputable source.<br>
+- Planting Depth: Sow beetroot seeds 1/2 inch deep directly in the garden.<br>
+- Spacing: Space seeds 2-4 inches apart in rows 12-18 inches apart.<br>
+- Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during germination and root development.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with beetroot plants.<br>
+- Mulching: Mulch around beetroot plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Aphids, flea beetles, and root maggots.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like powdery mildew and downy mildew.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in potassium for root development.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest beetroot roots when they reach the desired size, usually 1-3 inches in diameter.<br>
+- Cutting: Use a garden fork to gently lift beetroot roots from the soil.<br>
+`
+}
+, {
+    name: 'Brussels Sprouts',
+    info: `
+<b>Cultivating Techniques</b><br>
+<b>Soil Preparation:</b><br>
+- Soil Type: Well-drained, fertile soil with pH between 6.5 and 7.5.<br>
+- Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+- Brussels sprouts prefer soil that is rich in organic matter and moisture-retentive.<br><br>
+<b>Planting:</b><br>
+- Seed Selection: Choose Brussels sprouts seeds from a reputable source.<br>
+- Planting Depth: Transplant Brussels sprouts seedlings with the crown just below the soil surface.<br>
+- Spacing: Space seedlings 18-24 inches apart in rows 24-36 inches apart.<br>
+- Timing: Start Brussels sprouts seeds indoors 6-8 weeks before the last frost date.<br><br>
+<b>Irrigation:</b><br>
+- Watering: Keep soil consistently moist, especially during head formation.<br>
+- Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+<b>Weed Control:</b><br>
+- Hand Weeding: Regularly remove weeds to prevent competition with Brussels sprouts plants.<br>
+- Mulching: Mulch around Brussels sprouts plants to suppress weeds and conserve soil moisture.<br><br>
+<b>Pest and Disease Management:</b><br>
+- Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+- Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+- Monitor for diseases like clubroot and blackleg.<br><br>
+<b>Fertilization:</b><br>
+- Organic Matter: Apply compost or well-rotted manure before planting.<br>
+- Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+<b>Harvesting:</b><br>
+- Timing: Harvest Brussels sprouts when the heads are firm and tight, but before they start to open or discolor.<br>
+- Cutting: Harvest Brussels sprouts by cutting the stalk just below the lowest sprout, allowing the upper sprouts to continue developing.<br>
+`
+}]
+}}}}
+;
+        soilPhRadios.forEach(radio => {
+            radio.addEventListener('change', updateVegetableOptions);
+        });
+
+        sunlightDropdown.addEventListener('change', updateVegetableOptions);
+
+        vegetableDropdown.addEventListener('change', displayPlantInfo);
+
+        function updateVegetableOptions() {
+            const selectedPh = document.querySelector('input[name="soil-ph"]:checked');
+            const selectedSunlight = sunlightDropdown.value;
+
+            if (selectedPh) {
+                const phValue = selectedPh.value;
+                vegetableSection.style.display = 'block';
+                vegetableDropdown.innerHTML = '';
+
+                const availableVegetables = vegetables[phValue][selectedSunlight] || [];
+                availableVegetables.forEach(vegetable => {
+                    const option = document.createElement('option');
+                    option.value = vegetable.name;
+                    option.textContent = vegetable.name;
+                    vegetableDropdown.appendChild(option);
+                });
+            }
+        }
+
+        function displayPlantInfo() {
+            const selectedPh = document.querySelector('input[name="soil-ph"]:checked').value;
+            const selectedSunlight = sunlightDropdown.value;
+            const selectedVegetable = vegetableDropdown.value;
+
+            const vegetableInfo = vegetables[selectedPh][selectedSunlight].find(vegetable => vegetable.name === selectedVegetable);
+
+            if (vegetableInfo) {
+                plantInfo.style.display = 'block';
+                plantInfo.innerHTML = `<strong>${vegetableInfo.name}:</strong> ${vegetableInfo.info}`;
+            } else {
+                plantInfo.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

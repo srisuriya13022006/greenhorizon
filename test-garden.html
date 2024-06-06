@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Garden Website</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for maintaining color palette */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #117a8b;
+            border-color: #117a8b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mb-4">Professional Garden Website</h1>
+    <form>
+        <div class="form-group">
+            <label for="soil-ph">Select Soil pH:</label>
+            <div id="soil-ph-options">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="soil-ph" id="ph-low" value="low">
+                    <label class="form-check-label" for="ph-low">Low</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="soil-ph" id="ph-neutral" value="neutral">
+                    <label class="form-check-label" for="ph-neutral">Neutral</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="soil-ph" id="ph-high" value="high">
+                    <label class="form-check-label" for="ph-high">High</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sunlight">Select Sunlight:</label>
+            <select class="form-control" id="sunlight">
+                <option value="full">Full Sunlight</option>
+                <option value="partial">Partial Sunlight</option>
+                <option value="shade">Shade</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="vegetable">Select Vegetable:</label>
+            <select class="form-control" id="vegetable">
+                <option value="">Select a Vegetable</option>
+            </select>
+        </div>
+    </form>
+    <div id="plant-info" class="mt-4"></div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const vegetables = {
+        low: {
+            full: [
+                {
+                    name: 'Cabbage',
+                    info: `
+                        <b>Cultivating Techniques</b><br>
+                        <b>Soil Preparation:</b><br>
+                        - Soil Type: Well-drained, fertile soil with pH between 6.0 and 7.5.<br>
+                        - Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+                        - Cabbage prefers soil that is rich in organic matter and well-drained.<br><br>
+                        <b>Planting:</b><br>
+                        - Seed Selection: Choose cabbage seeds from a reputable source.<br>
+                        - Planting Depth: Transplant cabbage seedlings with the crown just below the soil surface.<br>
+                        - Spacing: Space seedlings 12-18 inches apart in rows 18-24 inches apart.<br>
+                        - Timing: Start cabbage seeds indoors 6-8 weeks before the last frost date.<br><br>
+                        <b>Irrigation:</b><br>
+                        - Watering: Keep soil consistently moist, especially during head formation.<br>
+                        - Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+                        <b>Weed Control:</b><br>
+                        - Hand Weeding: Regularly remove weeds to prevent competition with cabbage plants.<br>
+                        - Mulching: Mulch around cabbage plants to suppress weeds and conserve soil moisture.<br><br>
+                        <b>Pest and Disease Management:</b><br>
+                        - Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+                        - Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+                        - Monitor for diseases like clubroot and blackleg.<br><br>
+                        <b>Fertilization:</b><br>
+                        - Organic Matter: Apply compost or well-rotted manure before planting.<br>
+                        - Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+                        <b>Harvesting:</b><br>
+                        - Timing: Harvest cabbage heads when they are firm and solid, but before they split.<br>
+                        - Cutting: Cut cabbage heads at the base of the plant with a sharp knife.<br>
+                    `
+                }
+            ],
+            partial: [
+                {
+                    name: 'Garlic',
+                    info: `
+                        <b>Cultivating Techniques</b><br>
+                        <b>Soil Preparation:</b><br>
+                        - Soil Type: Well-drained, loamy soil with pH between 6.0 and 7.5.<br>
+                        - Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+                        - Garlic prefers soil that is loose, fertile, and well-drained.<br><br>
+                        <b>Planting:</b><br>
+                        - Clove Selection: Choose healthy garlic cloves from a reputable source.<br>
+                        - Planting Depth: Plant cloves 2 inches deep, pointed end up, and spaced 4-6 inches apart.<br>
+                        - Spacing: Space rows 12-18 inches apart.<br>
+                        - Timing: Plant cloves in fall, about 4-6 weeks before the first frost date.<br><br>
+                        <b>Irrigation:</b><br>
+                        - Watering: Keep soil consistently moist, especially during bulb formation.<br>
+                        - Mulching: Apply mulch like straw or shredded leaves to retain soil moisture and suppress weeds.<br><br>
+                        <b>Weed Control:</b><br>
+                        - Hand Weeding: Regularly remove weeds to prevent competition with garlic
+                        plants.<br>
+                        - Mulching: Mulch around garlic plants to suppress weeds and conserve soil moisture.<br><br>
+                        <b>Pest and Disease Management:</b><br>
+                        - Common Pests: Onion thrips, nematodes, and bulb mites.<br>
+                        - Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+                        - Monitor for diseases like white rot and garlic rust.<br><br>
+                        <b>Fertilization:</b><br>
+                        - Organic Matter: Apply compost or well-rotted manure before planting.<br>
+                        - Balanced Fertilizer: Use a balanced fertilizer low in nitrogen to avoid excessive leaf growth.<br><br>
+                        <b>Harvesting:</b><br>
+                        - Timing: Harvest garlic when the tops begin to yellow and fall over, usually in late spring or early summer.<br>
+                        - Digging: Use a garden fork to carefully lift garlic bulbs from the soil.<br>
+                        - Curing: Cure harvested garlic bulbs in a warm, dry, well-ventilated area for 2-4 weeks.<br>
+                    `
+                }
+            ],
+            shade: []
+        },
+        neutral: {
+            full: [
+                {
+                    name: 'Carrot',
+                    info: `
+                        <b>Cultivating Techniques</b><br>
+                        <b>Soil Preparation:</b><br>
+                        - Soil Type: Loose, well-drained soil with pH between 6.0 and 7.0.<br>
+                        - Preparation: Remove rocks and debris, and till soil to a depth of 12 inches.<br>
+                        - Carrots prefer sandy soil that is free from obstructions to allow for straight root growth.<br><br>
+                        <b>Planting:</b><br>
+                        - Seed Selection: Choose carrot seeds from a reputable source.<br>
+                        - Planting Depth: Sow carrot seeds 1/4 to 1/2 inch deep directly in the garden.<br>
+                        - Spacing: Space seeds 1-2 inches apart in rows 12-18 inches apart.<br>
+                        - Timing: Plant seeds in early spring for a summer harvest, or in late summer for a fall harvest.<br><br>
+                        <b>Irrigation:</b><br>
+                        - Watering: Keep soil consistently moist, especially during germination and root development.<br>
+                        - Mulching: Apply a thin layer of straw or dried grass clippings to retain soil moisture and suppress weeds.<br><br>
+                        <b>Weed Control:</b><br>
+                        - Hand Weeding: Regularly remove weeds to prevent competition with carrot plants.<br>
+                        - Mulching: Mulch around carrot plants to suppress weeds and conserve soil moisture.<br><br>
+                        <b>Pest and Disease Management:</b><br>
+                        - Common Pests: Carrot rust fly, carrot weevil, and aphids.<br>
+                        - Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+                        - Monitor for diseases like carrot blight and cavity spot.<br><br>
+                        <b>Fertilization:</b><br>
+                        - Minimal Fertilization: Carrots do not require heavy fertilization, but can benefit from a light application of balanced fertilizer.<br>
+                        - Avoid Excess Nitrogen: Excessive nitrogen can cause forked or hairy carrots.<br><br>
+                        <b>Harvesting:</b><br>
+                        - Timing: Harvest carrots when they reach the desired size and color, usually 2-3 months after planting.<br>
+                        - Pulling: Gently pull carrots from the soil, taking care not to damage neighboring plants.<br>
+                    `
+                }
+            ],
+            partial: [],
+            shade: []
+        },
+        high: {
+            full: [
+                {
+                    name: 'Beetroot',
+                    info: `
+                        <b>Cultivating Techniques</b><br>
+                        <b>Soil Preparation:</b><br>
+                        - Soil Type: Well-drained, loose soil with pH between 6.0 and 7.0.<br>
+                        - Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+                        - Beetroot prefers soil that is rich in organic matter and free from stones.<br><br>
+                        <b>Planting:</b><br>
+                        - Seed Selection: Choose beetroot seeds from a reputable source.<br>
+                        - Planting Depth: Sow beetroot seeds 1/2 inch deep directly in the garden.<br>
+                        - Spacing: Space seeds 2-4 inches apart in rows 12-18 inches apart.<br>
+                        - Timing: Plant seeds in early spring or late summer for a fall crop.<br><br>
+                        <b>Irrigation:</b><br>
+                        - Watering: Keep soil consistently moist, especially during germination and root development.<br>
+                        - Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+                        <b>Weed Control:</b><br>
+                        - Hand Weeding: Regularly remove weeds to prevent competition with beetroot plants.<br>
+                        - Mulching: Mulch around beetroot plants to suppress weeds and conserve soil moisture.<br><br>
+                        <b>Pest and Disease Management:</b><br>
+                        - Common Pests: Aphids, flea beetles, and root maggots.<br>
+                        - Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+                        - Monitor for diseases like powdery mildew and downy mildew.<br><br>
+                        <b>Fertilization:</b><br>
+                        - Organic Matter: Apply compost or well-rotted manure before planting.<br>
+                        - Balanced Fertilizer: Use a balanced fertilizer high in potassium for root development.<br><br>
+                        <b>Harvesting:</b><br>
+                        - Timing: Harvest beetroot roots when they reach the desired size, usually 1-3 inches in diameter.<br>
+                        - Cutting: Use a garden fork to gently lift beetroot roots from the soil.<br>
+                    `
+                }
+            ],
+            partial: [
+                {
+                    name: 'Brussels Sprouts',
+                    info: `
+                        <b>Cultivating Techniques</b><br>
+                        <b>Soil Preparation:</b><br>
+                        - Soil Type: Well-drained, fertile soil with pH between 6.5 and 7.5.<br>
+                        - Preparation: Incorporate organic matter like compost or aged manure for nutrients.<br>
+                        - Brussels sprouts prefer soil that is rich in organic matter and moisture-retentive.<br><br>
+                        <b>Planting:</b><br>
+                        - Seed Selection: Choose Brussels sprouts seeds from a reputable source.<br>
+                        - Planting Depth: Transplant Brussels sprouts seedlings with the crown just below the soil surface.<br>
+                        - Spacing: Space seedlings 18-24 inches apart in rows 24-36 inches apart.<br>
+                        - Timing: Start Brussels sprouts seeds indoors 6-8 weeks before the last frost date.<br><br>
+                        <b>Irrigation:</b><br>
+                        - Watering: Keep soil consistently moist, especially during head formation.<
+                        - Mulching: Apply mulch like straw or dried leaves to retain soil moisture and suppress weeds.<br><br>
+                        <b>Weed Control:</b><br>
+                        - Hand Weeding: Regularly remove weeds to prevent competition with Brussels sprouts plants.<br>
+                        - Mulching: Mulch around Brussels sprouts plants to suppress weeds and conserve soil moisture.<br><br>
+                        <b>Pest and Disease Management:</b><br>
+                        - Common Pests: Cabbage worms, aphids, and flea beetles.<br>
+                        - Diseases: Practice crop rotation to prevent disease buildup in the soil.<br>
+                        - Monitor for diseases like clubroot and blackleg.<br><br>
+                        <b>Fertilization:</b><br>
+                        - Organic Matter: Apply compost or well-rotted manure before planting.<br>
+                        - Balanced Fertilizer: Use a balanced fertilizer high in nitrogen for leafy growth.<br><br>
+                        <b>Harvesting:</b><br>
+                        - Timing: Harvest Brussels sprouts when the heads are firm and tight, but before they start to open or discolor.<br>
+                        - Cutting: Harvest Brussels sprouts by cutting the stalk just below the lowest sprout, allowing the upper sprouts to continue developing.<br>
+                    `
+                }
+            ],
+            shade: []
+        }
+    };
+
+    const soilPhRadios = document.querySelectorAll('input[name="soil-ph"]');
+    const sunlightDropdown = document.getElementById('sunlight');
+    const vegetableDropdown = document.getElementById('vegetable');
+    const plantInfo = document.getElementById('plant-info');
+
+    soilPhRadios.forEach(radio => {
+        radio.addEventListener('change', updateVegetableOptions);
+    });
+
+    sunlightDropdown.addEventListener('change', updateVegetableOptions);
+
+    vegetableDropdown.addEventListener('change', displayPlantInfo);
+
+    function updateVegetableOptions() {
+        const selectedPh = document.querySelector('input[name="soil-ph"]:checked');
+        const selectedSunlight = sunlightDropdown.value;
+
+        if (selectedPh) {
+            const phValue = selectedPh.value;
+            vegetableDropdown.innerHTML = '';
+
+            const availableVegetables = vegetables[phValue][selectedSunlight] || [];
+            availableVegetables.forEach(vegetable => {
+                const option = document.createElement('option');
+                option.value = vegetable.name;
+                option.textContent = vegetable.name;
+                vegetableDropdown.appendChild(option);
+            });
+        }
+    }
+
+    function displayPlantInfo() {
+        const selectedPh = document.querySelector('input[name="soil-ph"]:checked').value;
+        const selectedSunlight = sunlightDropdown.value;
+        const selectedVegetable = vegetableDropdown.value;
+
+        const vegetableInfo = vegetables[selectedPh][selectedSunlight].find(vegetable => vegetable.name === selectedVegetable);
+
+        if (vegetableInfo) {
+            plantInfo.style.display = 'block';
+            plantInfo.innerHTML = `<strong>${vegetableInfo.name}:</strong> ${vegetableInfo.info}`;
+        } else {
+            plantInfo.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Gardening</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(199, 223, 216);
+            margin: 0;
+            padding: 0;
+            color: #3e4a3a;
+        }
+        .navbar {
+            background-color: rgb(9, 49, 37);
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #4e681a;
+        }
+        .main-container {
+            margin-top: 70px;
+            padding: 20px;
+        }
+        .welcome-container {
+            background: linear-gradient(to bottom, #075e13fd, #52b35ff1);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .welcome-container h1 {
+            color: #f6f8f3;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.9em;
+        }
+        .welcome-container h2, .welcome-container p {
+            color: #f6f8f3;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        .form-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .options label {
+            font-size: 1.2em;
+            margin: 10px;
+        }
+        .btn-custom {
+            background-color: #6b8e23;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #556b2f;
+        }
+        .images-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .image-container {
+            width: 200px;
+            height: 200px;
+            background-color: #dcdcdc;
+            border-radius: 10px;
+            margin: 10px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s;
+        }
+        .image-container:hover {
+            transform: scale(1.05);
+        }
+        .extra-info {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: left;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        .contacts, .footer {
+            text-align: center;
+            color: #dcdcdc;
+            padding: 20px;
+        }
+        .contacts {
+            background: linear-gradient(to top, #075e13fd, #52b35ff1);
+        }
+        .footer {
+            background-color: rgb(9, 49, 37);
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .social-icons img {
+            margin: 0 10px;
+            width: 40px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        #notification-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        #modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        #modal-content h2 {
+            margin-top: 0;
+        }
+
+        #modal-content button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="#">Green horizon</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="scrollToLastSection()">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="PROFILE.html">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <img src="user.png" alt="Profile" style="width: 30px; height: 30px;">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container main-container">
+    <div class="welcome-container">
+        <h1><b>Welcome to the realm of nature’s miracles. Let your gardening journey begin!</b></h1>
+        <p><b>Welcome to the world of gardening and agriculture, where every seed you plant is a step towards a greener, more vibrant tomorrow. Here, you will discover the joy of nurturing life, the peace found in nature’s embrace, and the satisfaction of watching your efforts bloom into beauty and bounty. Whether you’re cultivating a small garden or transforming a terrace into a lush oasis, your journey begins here. Embrace the art of growth, the magic of soil, and the promise of a flourishing future. Let’s sow the seeds of hope and harvest the joys of nature together.</b></p>
+        <h2>Welcome aboard!</h2>
+    </div>
+
+    <div class="form-container">
+        <h2>Choose your space below!</h2>
+        <div class="options">
+            <label>
+                <input type="radio" name="agriculture" value="garden"> <b>GARDEN</b>
+            </label>
+            <label>
+                <input type="radio" name="agriculture" value="terrace"> <b>TERRACE/BALCONY</b>
+            </label>
+        </div>
+        <button class="btn btn-custom" onclick="proceed()">Proceed</button>
+    </div>
+
+    <div class="images-section">
+        <div class="image-container" style="background-image: url('sowing.jpg');"></div>
+        <div class="image-container" style="background-image: url('water.jpeg');"></div>
+        <div class="image-container" style="background-image: url('veg1.jpg');"></div>
+        <div class="image-container" style="background-image: url('carrot.jpg');"></div>
+        <div class="image-container" style="background-image: url('chily.jpg');"></div>
+    </div>
+
+
+      <div class="extra-info">
+        <h2>Get Started with Your Garden</h2>
+        <p>Starting a gardening journey to grow daily required vegetables is a rewarding endeavor.<br> Here are some practical tips for beginners:<br>
+
+           <h2><br><b> 1.Choose the Right Location</b><br></h2>
+               - <b>Sunlight</b>: Ensure your garden area gets at least 6-8 hours of sunlight per day.<br>
+               - <b>Soil</b>: Choose a spot with well-draining soil to prevent waterlogging.<br>
+               - <b>Accessibility</b>: Make sure it's convenient to water and maintain.<br><br>
+            
+             <h2><b> 2.Start Small</b><br></h2>
+               - <b>Begin with a few easy-to-grow vegetables</b>: Tomatoes, lettuce, radishes, carrots, and herbs.<br>
+               - <b>Container Gardening</b>: If space is limited, use pots or containers.<br><br>
+            
+             <h2><b> 3.Prepare the Soil</b><br></h2>
+               - <b>Test Your Soil</b>: Check for pH and nutrient levels (you can get a soil testing kit or send a sample to a local extension service).<br>
+               - <b>Add Organic Matter</b>: Enrich the soil with compost or aged manure to improve fertility.<br><br>
+            
+             <h2><b> 4.Plan Your Garden Layout</b><br></h2>
+               - <b>Spacing</b>: Leave enough space between plants for growth and air circulation.<br>
+               - <b>Companion Planting</b>: Some plants grow better together (e.g., tomatoes and basil).<br><br>
+            
+           <h2><b> 5.Select Seeds or Seedlings</b><br></h2>
+               - <b>Quality Seeds</b>: Buy from reputable sources.<br>
+               - <b>Seedlings</b>: Starting with seedlings can be easier for beginners.<br><br>
+            
+             <h2><b> 6.Watering</b><br></h2>
+               - <b>Consistent Watering</b>: Keep the soil consistently moist, but not waterlogged.<br>
+               - <b>Morning Watering</b>: Water early in the morning to reduce evaporation and prevent diseases.<br><br>
+            
+             <h2><b> 7.Fertilize Appropriately</b><br></h2>
+               - <b>Balanced Fertilizer</b>: Use a balanced, all-purpose vegetable fertilizer.<br>
+               - <b>Follow Instructions</b>: Apply fertilizers as per the package instructions.<br><br>
+            
+              <h2><b> 8.Mulch</b><br></h2>
+               - <b>Retain Moisture</b>: Use organic mulch like straw, grass clippings, or leaves to retain moisture and suppress weeds.<br>
+               - <b>Temperature Regulation</b>: Mulch helps maintain soil temperature.<br><br>
+            
+             <h2><b> 9.Pest and Disease Management</b><br></h2>
+               - <b>Natural Methods</b>: Use insecticidal soap, neem oil, or introduce beneficial insects like ladybugs.<br>
+               - <b>Regular Inspection</b>: Check plants regularly for signs of pests or disease.<br><br>
+            
+             <h2> <b> 10.Harvesting</b><br></h2>
+               - <b>Pick Regularly</b>: Harvest vegetables as soon as they’re ripe to encourage continuous production.<br>
+               - <b>Proper Techniques</b>: Use the correct techniques to avoid damaging plants (e.g., twist and pull for tomatoes).<br><br>
+            <br><br>
+            <h2><b>Common Natural fertilisers and manures</b></h2><br>
+   <b> Compost:</b> Decomposed organic matter such as kitchen scraps, yard waste, and manure.<br>
+
+<b>Animal Manure:</b> Animal waste like cow, horse, chicken, and sheep manure, which is rich in nutrients.<br>
+
+<b>Green Manure:</b> Crops like clover, alfalfa, or vetch that are grown and then plowed back into the soil to improve fertility.<br>
+
+<b>Bone Meal:</b> Ground-up animal bones, a good source of phosphorus and calcium.<br>
+
+<b>Fish Emulsion:</b> A liquid fertilizer made from fish waste, providing nitrogen, phosphorus, and trace minerals.<br>
+
+<b>Blood Meal:</b> A high-nitrogen fertilizer made from dried animal blood.<br>
+
+<b>Seaweed:</b> Rich in trace minerals and growth hormones, often used as a foliar spray or soil conditioner.<br>
+
+<b>Bat Guano:</b> Fertilizer derived from bat droppings, high in nitrogen, phosphorus, and potassium.<br>
+
+<b>Worm Castings (Vermicompost):</b> Rich in nutrients and beneficial microbes, produced by composting with earthworms.<br>
+
+<b>Feather Meal:</b> Made from hydrolyzed poultry feathers, a slow-release source of nitrogen.<br>
+
+<b>Cottonseed Meal:</b> Byproduct of cotton processing, contains nitrogen, phosphorus, and potassium.<br>
+
+<b>Rock Phosphate:</b> A natural mineral fertilizer containing phosphorus and other trace minerals.<br>
+
+<b>Greensand:</b> Derived from marine sediment, contains potassium, iron, magnesium, and other minerals.<br>
+
+<b>Wood Ash:</b> Contains potassium and calcium carbonate, can help raise soil pH.<br>
+
+<b>Manure Tea:</b> A liquid fertilizer made by steeping manure in water, providing nutrients in a diluted form.<br>
+             <h2>Keep Learning !!<br></h2>
+            <h2>Starting your gardening journey with these tips can help ensure a successful and enjoyable experience. Happy gardening!</h2></p>
+    </div>
+    <br><button onclick="openChatGPT()">Know more about Plants</button>
+    </div>
+    <div id="notification-modal">
+        <div id="modal-content">
+            <h2>Stay Updated!</h2>
+            <p>We would love to send you notifications about plant care tips, new plant-based recipes, and special promotions. Would you like to receive these notifications?</p>
+            <button id="allow-notifications">Yes, Please!</button>
+            <button id="deny-notifications">No, Thanks</button>
+        </div>
+    </div>
+    <div class="contacts" id="last-section">
+        <h2>Contact Information</h2>
+        <p>Phone: 123-456-7890</p>
+        <p>Email: info@gardening.com</p>
+        <p>Address: Sri Eshwar College Of Engineering, Kinathukadavu, Coimbatore - 641 202</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/yourpage"><img src="facebook.png" alt="Facebook"></a>
+            <a href="https://www.twitter.com/yourprofile"><img src="twitter.png" alt="Twitter"></a>
+            <a href="https://www.instagram.com/yourprofile"><img src="insta.png" alt="Instagram"></a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; Green Horizon</p>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function proceed() {
+        const options = document.getElementsByName('agriculture');
+        let selectedOption = null;
+        for (const option of options) {
+            if (option.checked) {
+                selectedOption = option.value;
+                break;
+            }
+        }
+        if (selectedOption) {
+            const url = selectedOption === 'garden' ? 'garden.html' : 'terrace.html';
+            window.open(url, '_blank');
+        } else {
+            alert('Please select an option before proceeding.');
+        }
+    }
+
+    function scrollToLastSection() {
+        const lastSection = document.getElementById('last-section');
+        lastSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    function openChatGPT() {
+    // Redirect to ChatGPT page or any other action you want
+    // Example:
+    window.open('https://chatgpt.com', '_blank');
+    }
+document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('notification-modal');
+            modal.style.display = 'block';
+            console.log('Modal displayed.');
+
+            document.getElementById('allow-notifications').addEventListener('click', () => {
+                console.log('Allow button clicked.');
+                requestNotificationPermission();
+                modal.style.display = 'none';
+            });
+
+            document.getElementById('deny-notifications').addEventListener('click', () => {
+                console.log('Deny button clicked.');
+                modal.style.display = 'none';
+            });
+        });
+
+        function requestNotificationPermission() {
+           
+            console.log('Requesting notification permission...');
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    console.log('Permission status:', permission);
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted.');
+                        scheduleNotifications();
+                    } else {
+                        console.log('Notification permission denied.');
+                    }
+                }).catch(error => {
+                    console.error('Permission request error:', error);
+                });
+            } else {
+                console.log('This browser does not support notifications.');
+            }
+        }
+
+        function showNotification(title, body) {
+ 
+            console.log('Attempting to show notification:', title, body);
+            const options = {
+                body: body,
+                icon: 'https://via.placeholder.com/128',
+                badge: 'https://via.placeholder.com/64'
+            };
+            try {
+                const notification = new Notification(title, options);
+                notification.onerror = (event) => {
+                    console.error('Notification error:', event);
+                };
+            } catch (error) {
+                console.error('Notification creation error:', error);
+            }
+        }
+
+        function scheduleNotifications() {
+            const notificationTimes = [
+                { hour: 22, minute: 35, message: "Good morning! Time to water your plants! 🌱" },
+                { hour: 15, minute: 0, message: "Afternoon reminder: Give your plants some love and water them! 🌿" },
+                { hour: 21, minute: 0, message: "Evening tip: Water your plants before bed for a great start tomorrow! 🌵" },
+                { hour: 11, minute: 0, message: "Remember, plants bring joy and freshness to your life! 🌸" },
+                { hour: 17, minute: 0, message: "Keep going, your plants are thriving because of you! 🌼" },
+                { hour: 21, minute: 51, message: "Growing plants is a journey. Enjoy every moment! 🌻" }
+            ];
+
+            const now = new Date();
+
+            notificationTimes.forEach(notification => {
+                const targetTime = new Date();
+                targetTime.setHours(notification.hour, notification.minute, 0, 0);
+
+                if (targetTime < now) {
+                    targetTime.setDate(targetTime.getDate() + 1); // schedule for next day if time has already passed today
+                }
+
+                const delay = targetTime - now;
+                console.log(`Scheduling notification: "${notification.message}" at ${targetTime} (in ${delay} ms)`);
+
+                setTimeout(() => {
+                    showNotification("Plant Care Reminder", notification.message);
+                }, delay);
+            });
+        }
+
+</script>
+
+</body>
+</html>

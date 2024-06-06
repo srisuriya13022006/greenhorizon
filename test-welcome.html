@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Gardening</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(199, 223, 216);
+            margin: 0;
+            padding: 0;
+            color: #3e4a3a;
+        }
+        .navbar {
+            background-color: rgb(9, 49, 37);
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #4e681a;
+        }
+        .main-container {
+            margin-top: 70px;
+            padding: 20px;
+        }
+        .welcome-container {
+            background: linear-gradient(to bottom, #075e13fd, #52b35ff1);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .welcome-container h1 {
+            color: #f6f8f3;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.9em;
+        }
+        .welcome-container h2, .welcome-container p {
+            color: #f6f8f3;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        .form-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .options label {
+            font-size: 1.2em;
+            margin: 10px;
+        }
+        .btn-custom {
+            background-color: #6b8e23;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #556b2f;
+        }
+        .images-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .image-container {
+            width: 200px;
+            height: 200px;
+            background-color: #dcdcdc;
+            border-radius: 10px;
+            margin: 10px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s;
+        }
+        .image-container:hover {
+            transform: scale(1.05);
+        }
+        .extra-info {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: left;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        .contacts, .footer {
+            text-align: center;
+            color: #dcdcdc;
+            padding: 20px;
+        }
+        .contacts {
+            background: linear-gradient(to top, #075e13fd, #52b35ff1);
+        }
+        .footer {
+            background-color: rgb(9, 49, 37);
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .social-icons img {
+            margin: 0 10px;
+            width: 40px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="#">Gardening</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="scrollToLastSection()">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="PROFILE.html">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <img src="path/to/profile-icon.png" alt="Profile" style="width: 30px; height: 30px;">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container main-container">
+    <div class="welcome-container">
+        <h1><b>Welcome to the realm of nature’s miracles. Let your gardening journey begin!</b></h1>
+        <p><b>Welcome to the world of gardening and agriculture, where every seed you plant is a step towards a greener, more vibrant tomorrow. Here, you will discover the joy of nurturing life, the peace found in nature’s embrace, and the satisfaction of watching your efforts bloom into beauty and bounty. Whether you’re cultivating a small garden or transforming a terrace into a lush oasis, your journey begins here. Embrace the art of growth, the magic of soil, and the promise of a flourishing future. Let’s sow the seeds of hope and harvest the joys of nature together.</b></p>
+        <h2>Welcome aboard!</h2>
+    </div>
+
+    <div class="form-container">
+        <h2>Choose your space below!</h2>
+        <div class="options">
+            <label>
+                <input type="radio" name="agriculture" value="garden"> <b>GARDEN</b>
+            </label>
+            <label>
+                <input type="radio" name="agriculture" value="terrace"> <b>TERRACE/BALCONY</b>
+            </label>
+        </div>
+        <button class="btn btn-custom" onclick="proceed()">Proceed</button>
+    </div>
+
+    <div class="images-section">
+        <div class="image-container" style="background-image: url('sowing.jpg');"></div>
+        <div class="image-container" style="background-image: url('water.jpeg');"></div>
+        <div class="image-container" style="background-image: url('veg1.jpg');"></div>
+        <div class="image-container" style="background-image: url('carrot.jpg');"></div>
+        <div class="image-container" style="background-image: url('chily.jpg');"></div>
+    </div>
+
+    <div class="extra-info">
+        <h2>Get Started with Your Garden</h2>
+        <p>Starting a gardening journey to grow daily required vegetables is a rewarding endeavor. Here are some practical tips for beginners:</p>
+        <!-- Add your content here -->
+    </div>
+
+    <div class="contacts" id="last-section">
+        <h2>Contact Information</h2>
+        <p>Phone: 123-456-7890</p>
+        <p>Email: info@gardening.com</p>
+        <p>Address: Sri Eshwar College Of Engineering, Kinathukadavu, Coimbatore - 641 202</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/yourpage"><img src="path/to/facebook-icon.png" alt="Facebook"></a>
+            <a href="https://www.twitter.com/yourprofile"><img src="path/to/twitter-icon.png" alt="Twitter"></a>
+            <a href="https://www.instagram.com/yourprofile"><img src="path/to/instagram-icon.png" alt="Instagram"></a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; Green Horizon</p>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function proceed() {
+        const options = document.getElementsByName('agriculture');
+        let selectedOption = null;
+        for (const option of options) {
+            if (option.checked) {
+                selectedOption = option.value;
+                break;
+            }
+        }
+        if (selectedOption) {
+            const url = selectedOption === 'garden' ? 'garden.html' : 'terrace.html';
+            window.open(url, '_blank');
+        } else {
+            alert('Please select an option before proceeding.');
+        }
+    }
+
+    function scrollToLastSection() {
+        const lastSection = document.getElementById('last-section');
+        lastSection.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrace/Balcony Garden Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(2, 49, 35);
+            color: #2e7d32;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #b0ffb5;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .side {
+            width: 20%;
+            padding: 10px;
+        }
+        .side img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .container {
+            width: 60%;
+            background-color: #c8e6c9;
+            border: 2px solid #2e7d32;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(196, 196, 196, 0.2);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .dropdown {
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #66bb6a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #388e3c;
+        }
+        .info-box {
+            background-color: #ffffff;
+            border: 1px solid #2e7d32;
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #plant-info {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #ffffff;
+            border: 1px solid #2e7d32;
+            border-radius: 5px;
+            padding: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Terrace/Balcony</h1>
+    <div class="main-container">
+        <div class="side">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\blc.jpg" alt="Garden Image"><br>
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\b2.jpeg" alt="Garden Image">
+        </div>
+        <div class="container">
+            <div class="section">
+                <label for="sunlight">Percent of Sunlight Received:</label>
+                <select id="sunlight" class="dropdown">
+                    
+                    <option value="51-75">40-75%</option>
+                    <option value="76-100">76-100%</option>
+                </select>
+            </div>
+            <div class="section">
+                <label for="pot-size">Pot Size:</label>
+                <select id="pot-size" class="dropdown">
+                    <option value="small">Small (up to 5 liters)</option>
+                    <option value="medium">Medium (6-10 liters)</option>
+                    <option value="large">Large (more than 10 liters)</option>
+                </select>
+            </div>
+            <div class="section" id="vegetable-section" style="display: none;">
+                <label for="vegetables">Vegetables:</label>
+                <select id="vegetables" class="dropdown">
+                    <!-- Options will be added dynamically based on sunlight and pot size -->
+                </select>
+            </div>
+            <div id="plant-info" class="info-box">
+                <!-- Plant information will be displayed here -->
+            </div>
+        </div><br>
+        <div class="side">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\final.jpg" alt="Garden Image">
+            <img src="C:\Users\Sruthy suji\Documents\expo2024\abcd.jpg" alt="Garden Image">
+        </div>
+    </div>
+    <div class="info-box">
+       <h2><b>General Tips for Balcony Gardening</b></h2>
+       <br>Different vegetables require different pot sizes and sunlight conditions. Make sure to select the right combination for your terrace or balcony garden.
+       <br><br>
+       <b>Container Selection:</b><br>
+       - Ensure the pots have good drainage holes to prevent waterlogging.<br>
+       - Use pots that are deep and wide enough to accommodate the root systems.<br>
+       - A minimum depth of 12 inches is usually sufficient for most vegetables.<br>
+       - Choose containers made of durable materials like plastic, terracotta, or fabric grow bags.<br><br>
+       <b>Soil:</b><br>
+       - Use high-quality potting soil that is well-draining and rich in organic matter.<br>
+       - Avoid using garden soil, which can be too dense and may carry pests and diseases.<br><br>
+       <b>Watering:</b><br>
+       - Keep the soil consistently moist but not waterlogged. <br>
+       - Watering frequency may vary based on weather conditions and plant needs.<br>
+       - Ensure even watering to avoid dry spots or overly saturated areas.<br><br>
+       <b>Sunlight:</b><br>
+       - Place the pots in a location that receives ample sunlight. <br>
+       - Most vegetables, including onions, chili peppers, and tomatoes, require at least 6-8 hours of direct sunlight daily.<br><br>
+       <b>Fertilizers & Manures:</b><br>
+       - Use balanced, slow-release organic fertilizers or liquid fertilizers as per the plant's growth stages.<br>
+       - Regularly check the soil nutrient levels and replenish as needed.<br><br>
+    </div>
+    <script>
+        const vegetableSection = document.getElementById('vegetable-section');
+        const vegetableDropdown = document.getElementById('vegetables');
+        const sunlightDropdown = document.getElementById('sunlight');
+        const potSizeDropdown = document.getElementById('pot-size');
+        const plantInfo = document.getElementById('plant-info');
+
+        const vegetables = {
+            '51-75': {
+                small: [
+                    { 
+                        name: 'Lettuce<br>', 
+                        info: `
+                        <br>- <b>Pot Size:</b> Use shallow pots that are at least 6-8 inches deep.<br>
+                        <br>- <b>Soil:</b> Light, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not soggy.<br>
+                        <br>- <b>Sunlight:</b> Requires 4-6 hours of sunlight. Can tolerate partial shade.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced liquid fertilizer every 2 weeks.<br>
+                      `
+                    }, 
+                    { 
+                        name: 'Spinach<br>', 
+                        info: `
+                        <br>- <b>Pot Size:</b> Use shallow pots that are at least 6-8 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Prefers partial shade with 4-6 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a nitrogen-rich fertilizer every 2-3 weeks.<br>
+                        `
+                    }
+                ],
+                medium: [
+                { 
+                        name: 'Pea', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use pots that are at least 8-12 inches deep.<br>
+                        <br>- <b>Soil:</b> Light, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil evenly moist, especially during flowering.<br>
+                        <br>- <b>Sunlight:</b> Requires 4-6 hours of sunlight. Can tolerate partial shade.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and again at flowering.<br>
+                        `
+                    },
+                
+                    { 
+                        name: 'Beetroot', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use pots that are at least 8-12 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 4-6 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer every 3-4 weeks.<br>
+                        `
+                    }
+                ],
+                large: [
+                    { 
+                        name: 'Pepper', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Wide pots with a depth of at least 12 inches (30 cm). Ensure good drainage.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and again at flowering.<br>
+                       `
+                    },
+                    { 
+                        name: 'Ginger', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use large pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Sunlight:</b> Requires partial shade to full sunlight, about 4-6 hours of sunlight daily.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist, but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Apply a balanced fertilizer every 4-6 weeks during active growth.<br>
+                       `
+                    }
+                ]
+            },
+            '76-100': {
+                small: [
+                    { 
+                        name: 'Parsley', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use shallow pots that are at least 6-8 inches deep.<br>
+                        <br>- <b>Soil:</b> Light, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not soggy.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced liquid fertilizer every 2 weeks.<br>
+                        `
+                    }, 
+                    { 
+                        name: 'Chives', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use shallow pots that are at least 6-8 inches deep.<br>
+                        <br>- <b>Soil:</b> Light, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not soggy.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced liquid fertilizer every 2 weeks.<br>
+                        `
+                    }
+                ],
+                medium: [
+                   
+                    { 
+                        name: 'Eggplant', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use medium pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                      `
+                    }
+                ],
+                large: [
+                { 
+                        name: 'Tomato', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use medium pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                      `
+                    },
+                    { 
+                        name: 'Potato', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Large pots or grow bags with a depth of at least 12 inches (30 cm). Ensure the container is deep enough for tuber development.<br>
+                        <br>- <b>Soil:</b> Use loose, well-draining soil with organic matter.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist, especially during tuber formation.<br>
+                        <br>- <b>Sunlight:</b> Requires full sunlight, at least 6-8 hours of direct sunlight daily.<br>
+                        <br>- <b>Fertilization:</b> Apply a balanced fertilizer at planting and when the plants begin to flower.<br>
+                       `
+                    },
+                    { 
+                        name: 'Garlic', 
+                        info: `<b></b> <br>
+                        <br>-<b> Pot Size:</b> Deep pots with a depth of at least 8 inches (20 cm). Ensure good drainage.<br>
+                        <br>-<b> Soil:</b> Use well-draining soil with good fertility.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist, especially during bulb formation.<br>
+                        <br>- <b>Sunlight:</b> Requires full sunlight, at least 6-8 hours of direct sunlight daily.<br>
+                        <br>- <b>Fertilization:</b> Apply a balanced fertilizer at planting and when the plants begin active growth.<br>
+                       `
+                    },
+                { 
+                        name: 'Carrot', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use deep pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Loose, sandy, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting.<br>
+                       `
+                    },
+                    { 
+                        name: 'Cucumber', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use large pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                       `
+                    },
+                    { 
+                        name: 'Onion', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use large pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                        `
+                    },
+                    { 
+                        name: 'Ladiesfinger', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Deep pots with a depth of at least 12 inches (30 cm). Ensure good drainage.<br>
+                        <br>- <b>Soil:</b> Use well-draining soil enriched with compost.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist, especially during flowering and fruiting.<br>
+                        <br>- <b>Sunlight:</b> Requires full sunlight, at least 6-8 hours of direct sunlight daily.<br>
+                        <br>- <b>Fertilization:</b> Apply a balanced fertilizer every 2-3 weeks during active growth.<br>
+                        `
+                    },
+                    
+                    { 
+                        name: 'Bell Pepper', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use large pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                        `
+                    },
+                    { 
+                        name: 'Chili Pepper', 
+                        info: `<b></b> <br>
+                        <br>- <b>Pot Size:</b> Use large pots that are at least 12-18 inches deep.<br>
+                        <br>- <b>Soil:</b> Rich, well-draining potting mix.<br>
+                        <br>- <b>Watering:</b> Keep the soil consistently moist but not waterlogged.<br>
+                        <br>- <b>Sunlight:</b> Requires 6-8 hours of sunlight.<br>
+                        <br>- <b>Fertilization:</b> Use a balanced fertilizer at planting and every 2-3 weeks during growing season.<br>
+                       `
+                    }
+                ]
+            }
+        };
+
+        sunlightDropdown.addEventListener('change', updateVegetableOptions);
+        potSizeDropdown.addEventListener('change', updateVegetableOptions);
+        vegetableDropdown.addEventListener('change', displayPlantInfo);
+
+        function updateVegetableOptions() {
+            const selectedSunlight = sunlightDropdown.value;
+            const selectedPotSize = potSizeDropdown.value;
+
+            if (selectedSunlight && selectedPotSize) {
+                vegetableSection.style.display = 'block';
+                vegetableDropdown.innerHTML = '';
+
+                const availableVegetables = vegetables[selectedSunlight][selectedPotSize] || [];
+                availableVegetables.forEach(vegetable => {
+                    const option = document.createElement('option');
+                    option.value = vegetable.name;
+                    option.textContent = vegetable.name;
+                    vegetableDropdown.appendChild(option);
+                });
+            }
+        }
+
+        function displayPlantInfo() {
+            const selectedSunlight = sunlightDropdown.value;
+            const selectedPotSize = potSizeDropdown.value;
+            const selectedVegetable = vegetableDropdown.value;
+
+            const vegetableInfo = vegetables[selectedSunlight][selectedPotSize].find(vegetable => vegetable.name === selectedVegetable);
+
+            if (vegetableInfo) {
+                plantInfo.style.display = 'block';
+                plantInfo.innerHTML = `<strong>${vegetableInfo.name}:</strong> ${vegetableInfo.info}`;
+            } else {
+                plantInfo.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

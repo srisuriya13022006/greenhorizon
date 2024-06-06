@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Plants</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-1: #007f5f;
+            --color-2: #2b9348;
+            --color-3: #55a630;
+            --color-4: #80b918;
+            --color-5: #aacc00;
+            --color-6: #bfd200;
+            --color-7: #d4d700;
+            --color-8: #dddf00;
+            --color-9: #eeef20;
+            --color-10: #ffff3f;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('plant1 bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        header {
+            background-color: var(--color-1);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        .welcome-container {
+            background-color: var(--color-4);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .plant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .plant-card {
+            background-color: var(--color-2);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 0 auto;
+            margin-right:10px;
+            margin-left:10px;
+            margin-bottom:10px;
+        }
+
+        .plant-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+           
+        }
+
+        .plant-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+
+        .status {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--color-6);
+        }
+
+
+        .add-plant-btn {
+            background-color: var(--color-5);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-plant-btn:hover {
+            background-color: var(--color-6);
+        }
+
+        .remove-btn,
+        .update-btn {
+            background-color: var(--color-6);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover,
+        .update-btn:hover {
+            background-color: var(--color-7);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Styles for the camera popup */
+        #camera-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        #camera-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Garden Plants</h1>
+        </header>
+        <div class="welcome-container">
+            <h2>Welcome!</h2>
+            <p>Start adding your plants and watch your garden grow.</p>
+        </div>
+        <button id="add-plant-btn" class="btn add-plant-btn mb-4">Add Plant</button>
+        <form id="add-plant-form" class="add-plant-form hidden mb-4">
+            <div class="form-group">
+                <input type="text" id="plant-name" class="form-control" placeholder="Plant Name" required>
+            </div>
+            <div class="form-group">
+                <select id="plant-condition" class="form-control" required>
+                    <option value="" disabled selected hidden>Condition</option>
+                    <option value="Healthy">Healthy</option>
+                    <option value="Good">Good</option>
+                    <option value="Worst">Worst</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="plant-growth" class="form-control" required>
+                    <option value="" disabled selected hidden>Growth</option>
+                    <option value="High">High</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="plant-fertility" class="form-control" required>
+                    <option value="" disabled selected hidden>Fertility</option>
+                    <option value="High">High</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Plant</button>
+        </form>
+        <div id="plant-list" class="row">
+            <!-- Existing plants will be rendered here -->
+        </div>
+    </div>
+    
+    <!-- Camera Popup -->
+    <div id="camera-popup">
+        <div id="camera-container">
+            <video id="camera" width="300" height="300" autoplay></video>
+            <select id="camera-select" class="form-control mt-3"></select>
+            <button id="capture-btn" class="btn btn-primary mt-3">Capture</button>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const addPlantBtn = document.getElementById('add-plant-btn');
+            const addPlantForm = document.getElementById('add-plant-form');
+            const plantNameInput = document.getElementById('plant-name');
+            const plantConditionInput = document.getElementById('plant-condition');
+            const plantGrowthInput = document.getElementById('plant-growth');
+            const plantFertilityInput = document.getElementById('plant-fertility');
+            const unsplashAccessKey = 'bJxJsjiGOgwtJcud86dF745ODehBFrocy0ggZ6_1ZPU';  // Replace with your Unsplash API access key
+    
+            const plants = [];
+    
+            function renderPlants() {
+                const plantList = document.getElementById('plant-list');
+                plantList.innerHTML = '';
+                plants.forEach((plant, index) => {
+                    const plantCard = document.createElement('div');
+                    plantCard.className = 'plant-card col-md-6';
+                    plantCard.innerHTML = `
+                        <img src="${plant.image}" class="img-fluid" alt="${plant.name}">
+                        <div class="plant-info mt-3">
+                            <h3>${plant.name}</h3>
+                            <div class="status">
+                                <div class="status-item">
+                                    <span>Condition:</span>
+                                    <div class="status-indicator" style="background-color: ${getStatusColor(plant.condition)};"></div>
+                                    <span>${plant.condition}</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Growth:</span>
+                                    <div class="status-indicator" style="background-color: ${getStatusColor(plant.growth)};"></div>
+                                    <span>${plant.growth}</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Fertility:</span>
+                                    <div class="status-indicator" style="background-color: ${getStatusColor(plant.fertility)};"></div>
+                                    <span>${plant.fertility}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn update-btn mt-2" data-index="${index}">Update</button>
+                        <button class="btn remove-btn mt-2" data-index="${index}">Remove</button>
+                    `;
+                    plantList.appendChild(plantCard);
+                });
+    
+                // Add event listeners to the remove and update buttons
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const index = e.target.dataset.index;
+                        plants.splice(index, 1);
+                        renderPlants();
+                    });
+                });
+    
+                document.querySelectorAll('.update-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const index = e.target.dataset.index;
+                        openCamera(index);
+                    });
+                });
+            }
+    
+            function getStatusColor(status) {
+                switch (status.toLowerCase()) {
+                    case 'healthy':
+                    case 'high':
+                        return 'green';
+                    case 'good':
+                    case 'moderate':
+                        return 'yellow';
+                    case 'worst':
+                    case 'low':
+                        return 'red';
+                    default:
+                        return 'grey';
+                }
+            }
+    
+            async function fetchPlantImage(plantName) {
+                const response = await fetch(`https://api.unsplash.com/search/photos?query=${plantName}&client_id=${unsplashAccessKey}`);
+                const data = await response.json();
+                return data.results.length > 0 ? data.results[0].urls.small : 'https://via.placeholder.com/150';
+            }
+    
+            addPlantBtn.addEventListener('click', () => {
+                addPlantForm.classList.toggle('hidden');
+            });
+    
+            addPlantForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const plantName = plantNameInput.value;
+                const plantImage = await fetchPlantImage(plantName);
+                const newPlant = {
+                    name: plantName,
+                    image: plantImage,
+                    condition: plantConditionInput.value,
+                    growth: plantGrowthInput.value,
+                    fertility: plantFertilityInput.value
+                };
+                plants.push(newPlant);
+                renderPlants();
+                addPlantForm.reset();
+                addPlantForm.classList.add('hidden');
+            });
+    
+            function openCamera(index) {
+                const cameraPopup = document.getElementById('camera-popup');
+                const video = document.getElementById('camera');
+                const captureBtn = document.getElementById('capture-btn');
+                const cameraSelect = document.getElementById('camera-select');
+                cameraPopup.style.display = 'block';
+
+                // Clear existing options
+                cameraSelect.innerHTML = '';
+    
+                navigator.mediaDevices.enumerateDevices().then(devices => {
+                    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                    videoDevices.forEach((device, i) => {
+                        const option = document.createElement('option');
+                        option.value = device.deviceId;
+                        option.text = device.label || `Camera ${i + 1}`;
+                        cameraSelect.appendChild(option);
+                    });
+                });
+
+                cameraSelect.addEventListener('change', () => {
+                    const selectedDeviceId = cameraSelect.value;
+                    startCamera(selectedDeviceId);
+                });
+    
+                // Start the camera with the selected device
+                function startCamera(deviceId) {
+                    const constraints = {
+                        video: {
+                            deviceId: deviceId ? { exact: deviceId } : undefined
+                        }
+                    };
+                    navigator.mediaDevices.getUserMedia(constraints)
+                        .then((stream) => {
+                            video.srcObject = stream;
+                            video.play();
+                        })
+                        .catch((err) => {
+                            console.error('Error accessing the camera: ', err);
+                        });
+                }
+    
+                // Start with the first available device
+                startCamera(cameraSelect.value);
+    
+                // Capture button functionality
+                captureBtn.addEventListener('click', () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const context = canvas.getContext('2d');
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageUrl = canvas.toDataURL('image/png');
+                    plants[index].image = imageUrl;
+                    renderPlants();
+                    cameraPopup.style.display = 'none';
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                });
+            }
+    
+            renderPlants();
+        });
+    </script>
+</body>
+</html>
