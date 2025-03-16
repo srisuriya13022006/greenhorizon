@@ -64,25 +64,25 @@ const SoilListing = () => {
     }
 
     try {
-      // 1️⃣ Send data to backend first
-      const backendResponse = await axios.post("http://127.0.0.1:5000/soilreport", {
-        nitrogen: formData.nitrogen,
-        phosphorus: formData.phosphorus,
-        potassium: formData.potassium,
-        ph: formData.soilPh,
-        soilTexture: formData.soilType,
-      });
+      // // 1️⃣ Send data to backend first
+      // const backendResponse = await axios.post("http://192.168.238.22:5000/soilreport", {
+      //   nitrogen: formData.nitrogen,
+      //   phosphorus: formData.phosphorus,
+      //   potassium: formData.potassium,
+      //   ph: formData.soilPh,
+      //   soilTexture: formData.soilType,
+      // });
 
-      console.log("Backend Response:", backendResponse.data);
+      // console.log("Backend Response:", backendResponse.data);
 
-      const { cropRecommendations, fertilizerRecommendation } = backendResponse.data;
+      // const { cropRecommendations, fertilizerRecommendation } = backendResponse.data;
 
       // 3️⃣ Save report to Firestore after backend response
       const soilTestRef = await addDoc(collection(fireStore, "soiltest"), {
         userId: user.uid,
         ...formData,
-        cropRecommendations,
-        fertilizerRecommendation,
+        // cropRecommendations,
+        // fertilizerRecommendation,
         createdAt: new Date().toISOString(),
       });
 
