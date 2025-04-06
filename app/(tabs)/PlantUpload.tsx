@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { Platform } from "react-native";
 
 type Plant = {
   id: number;
@@ -18,7 +20,7 @@ type Plant = {
   image: string | null;
 };
 
-export default function IndexScreen() {
+export default function PlantUploadScreen() {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [plantName, setPlantName] = useState("");
   const [condition, setCondition] = useState("");
@@ -28,6 +30,7 @@ export default function IndexScreen() {
   const pickImage = async (fromCamera: boolean) => {
     let result: ImagePicker.ImagePickerResult;
 
+    console.log("Opening image picker...");
     if (fromCamera) {
       result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -45,32 +48,75 @@ export default function IndexScreen() {
     }
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const selectedUri = result.assets[0].uri;
+      console.log("Image selected:", selectedUri);
+      setImage(selectedUri);
+    } else {
+      console.log("Image selection cancelled.");
     }
   };
 
-  const addPlant = () => {
-    if (!plantName || !condition || !yieldValue) {
-      alert("Please fill all fields!");
+  const addPlant = async () => {
+    console.log("Submitting plant data...");
+
+    if (!plantName || !condition || !yieldValue || !image) {
+      alert("Please fill all fields and upload an image!");
+      console.log("❌ Missing required fields!");
       return;
     }
 
-    const newPlant: Plant = {
-      id: plants.length + 1,
-      name: plantName,
-      condition,
-      yield: yieldValue,
-      image,
-    };
+    console.log("✅ Fields filled:");
+    console.log("Plant Name:", plantName);
+    console.log("Condition:", condition);
+    console.log("Yield:", yieldValue);
+    console.log("Image URI:", image);
 
-    setPlants([...plants, newPlant]);
-    setPlantName("");
-    setCondition("");
-    setYieldValue("");
-    setImage(null);
+    try {
+      const formData = new FormData();
+      formData.append("plantName", plantName);
+      formData.append("condition", condition);
+      formData.append("yield_value", yieldValue);
+      
+
+// Fix iOS path and ensure correct file object is passed
+formData.append("image", {
+  uri: Platform.OS === "ios" ? image.replace("file://", "") : image,
+  name: "plant.jpg",
+  type: "image/jpeg",
+} as any);
+
+
+      console.log("📦 FormData prepared. Sending request...");
+
+      const response = await axios.post("http://127.0.0.1:5000/plantupload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("✅ Upload success:", response.data);
+
+      const newPlant: Plant = {
+        id: plants.length + 1,
+        name: plantName,
+        condition,
+        yield: yieldValue,
+        image,
+      };
+
+      setPlants([...plants, newPlant]);
+      setPlantName("");
+      setCondition("");
+      setYieldValue("");
+      setImage(null);
+    } catch (error: any) {
+      console.error("❌ Error uploading plant data:", error);
+      alert("Failed to send plant data to server.");
+    }
   };
 
   const removePlant = (id: number) => {
+    console.log(`Removing plant with id: ${id}`);
     setPlants(plants.filter((plant) => plant.id !== id));
   };
 
@@ -84,19 +130,28 @@ export default function IndexScreen() {
         style={styles.input}
         placeholder="Enter Plant Name"
         value={plantName}
-        onChangeText={setPlantName}
+        onChangeText={(text) => {
+          console.log("Plant name changed:", text);
+          setPlantName(text);
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Enter Condition (e.g., Healthy / Non-healthy)"
         value={condition}
-        onChangeText={setCondition}
+        onChangeText={(text) => {
+          console.log("Condition changed:", text);
+          setCondition(text);
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Enter Yield (e.g., Good/Bad)"
         value={yieldValue}
-        onChangeText={setYieldValue}
+        onChangeText={(text) => {
+          console.log("Yield changed:", text);
+          setYieldValue(text);
+        }}
       />
 
       <View style={styles.imageButtonContainer}>
@@ -123,8 +178,7 @@ export default function IndexScreen() {
             <Text style={styles.detailsText}>Condition: {item.condition}</Text>
             <Text style={styles.detailsText}>Yield: {item.yield}</Text>
             {item.image && <Image source={{ uri: item.image }} style={styles.previewImage} />}
-            
-            {/* ✅ Remove Button (Green) */}
+
             <TouchableOpacity style={styles.removeButton} onPress={() => removePlant(item.id)}>
               <Text style={styles.removeButtonText}>Remove</Text>
             </TouchableOpacity>
@@ -180,14 +234,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   removeButton: {
-    backgroundColor: "green", // ✅ Changed to green
+    backgroundColor: "green",
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
     alignItems: "center",
   },
   removeButtonText: {
-    color: "white", // ✅ White text for contrast
+    color: "white",
     fontWeight: "bold",
   },
   buttonText: {

@@ -3,7 +3,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 // Define the type for stack screens
 export type RootStackParamList = {
   Login: undefined;
-    Signup: undefined;
+    signUp: undefined;
+    WelcomeScreen: undefined; 
   terrace: undefined
   SoilPage: undefined
   PlantPage: undefined,
